@@ -96,13 +96,12 @@ And the CSS:
 
 Dynamite!  Now, navigate to your dev tools and under the elements tab, hover over each of the divs.  What do you notice? A "box" is being highlighted in your browser!
 
-How about if we drop this code into our CSS file:
+How about if we drop this code into each of the  id's #square1-#square4 our CSS file:
 
 
 ```css
-* {
+* 
     border: 1px solid red !important;
-}
 ```
 
 Notice the body, the container, and each of the divs are surrounded by a red border.  Peak at the styles tab on the right and scroll all the way to the bottom.  You'll notice boxes within boxes - madness!
