@@ -3,8 +3,8 @@ title: CSS Box Model and Positioning
 type: lesson
 duration: "1:25"
 creator:
-    name: Alex Chin
-    city: London
+    name: Shawn Johnson
+    city: Atlanta
 competencies: Front-end intro
 ---
 
@@ -28,14 +28,19 @@ competencies: Front-end intro
 
 > Note: Solution code for this lesson is built out as the lesson progresses.
 
-## An Intro to The Box Model (5 mins)
-
+## Framing (5 / 5)
 
 All HTML elements can be considered boxes. Even if you see a circle, it's living within a box.
 
 The CSS box model describes this principal - a box wraps around all HTML elements, and it consists of: margins, borders, padding, and the actual content.  This model allows us to place a border around elements and space elements in relation to other elements.
 
 With CSS properties and values, it is possible to apply specific styles to each of these elements, and change the way they behave and/or display on the page.
+## Layout: Turn & Talk (5 / 10)
+
+Spend 2 minutes talking with a partner about html and the DOM elements we have learned so far and how how css box model might help you  to control layout.
+
+- What is an HTML element?
+- How can we view the box model?
 
 ## Box Model Demo - Codealong (5 mins)
 
@@ -516,3 +521,9 @@ Lets go back to our CSS and change our "square2" div's positioning from float:le
 - Compare the elements of The Box Model - margin, border, padding, content.
 - How do floats work with clears to create a multicolumn layout?
 - Compare inline-block, block, and inline.
+
+## Sample Quiz Questions
+
+*  What is the margin of the box model? 
+* What is the padding of the box model?
+* Where is the border in the box model? 
