@@ -525,6 +525,8 @@ Lets go back to our CSS and change our "square2" div's positioning from float:le
 ##Addtional Resources
 [box model w3 schools video](https://www.youtube.com/watch?v=lPm8lK4C7nc)
 
+[w3 schools boxmodel] (http://www.w3schools.com/css/css_boxmodel.asp)
+
 [Intro to CSS FEWD Slides](http://jrosebud.github.io/lesson02/#/18)
 
 
