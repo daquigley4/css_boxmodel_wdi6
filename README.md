@@ -1,286 +1,518 @@
-# Intro to CSS and Box Model
+---
+title: CSS Box Model and Positioning
+type: lesson
+duration: "1:25"
+creator:
+    name: Alex Chin
+    city: London
+competencies: Front-end intro
+---
 
-[FEWD Slides](http://jrosebud.github.io/)
+# CSS Box Model and Positioning
 
-**Learning Objectives**
+### Objectives
+*After this lesson, students will be able to:*
 
-- What is CSS?
-- What are Selectors?
-- What is the Box Model?
+- Describe the difference between block, inline, and inline-block elements
+- Adjust element spacing using padding and margin
+- Create floating elements to position content removed from the standard document flow
+- Explain the difference between and use cases of static, relative, fixed, & absolute positioning
+- Create a page with multicolumn layout
 
-## CSS
+### Preparation
+*Before this lesson, students should already be able to:*
 
-[Intro to CSS FEWD Slides](http://jrosebud.github.io/lesson02/#/18)
+- Write basic CSS
+- Write basic HTML
+- Use the chrome console
 
-**Cascading Stylesheets**
+> Note: Solution code for this lesson is built out as the lesson progresses.
 
-Provides visual styling rules for specific elements within the document object model (DOM).
+## An Intro to The Box Model (5 mins)
 
 
-## Where styles go
+All HTML elements can be considered boxes. Even if you see a circle, it's living within a box.
 
-### External stylesheets
+The CSS box model describes this principal - a box wraps around all HTML elements, and it consists of: margins, borders, padding, and the actual content.  This model allows us to place a border around elements and space elements in relation to other elements.
 
-The best approach is to include all of your styles through external stylesheets (".css" files) using the `<link>` tag. Add a reset stylesheet first to normalize your environment across browsers!
+With CSS properties and values, it is possible to apply specific styles to each of these elements, and change the way they behave and/or display on the page.
 
-```
- <link href="reset.css" rel="stylesheet">
- <link href="main.css" rel="stylesheet">
-```
+## Box Model Demo - Codealong (5 mins)
 
-### Embedded stylesheets
+Let's write some HTML we can come back to and use to visualize what we're talking about.
 
-Styles may be embedded into the HTML document within a `<style>` tag. While this can have its uses, the approach is generally discouraged.
+- Create an new directory called `box-model-work`
+- Create html page called `index.html` with an externally linked css stylesheet called `main.css`
+- Inside your html page create a "container" div holding four divs within.
+- Inside our CSS page, make the container a 500px gray square containing 100px squares within that are red, blue, green, and black.
 
-```
- <style>
-  body {
-    background-color: #ccc;
-  }
- </style>
-```
+Looking at the html:
 
-### Inline styles
+```html
+<link rel="stylesheet" type="text/css" href="css/style.css">
 
-Extremely specific style attributes can be written onto elements within the Document Object Model (DOM). This is the primary method that JavaScript uses to manipulate your presentation. You should avoid using inline styles while composing your base presentation graphics.
-
-```
- <div style="display:none;">I'm hidden.</div>
-```
-
-## Selectors
-
-Selectors are used to target elements in the DOM with specific style rules. Selectors may target elements by tag name, class name, id name, or as inline rules applied directly to an element.
-
-### Basic Selectors:
-
-- `tagname`
-  - `<p>`, `<div>`
-- `.class-name`
-  - `.`
-- `#id-name`
-  - `#`
-
-**HTML:**
-
-```
- <div class="promo" id="pencil-promo">
-  <h2>Pencils for sale!</h2>
-  <p>For a limited time offer, get yours today!</p>
-  <p style="font-size:10px;">Limited time offer, while supplies last.</p>
- </div>
-```
-**CSS Selectors:**
-
-```
- h2 {
-  /* Selects by tag name */
- }
-
- .promo {
-  /* Selects by class name*/
- }
-
- #pencil-promo {
-  /* Selects by id name (maybe you have many promos, but want pencil to be different)*/
- }
+<div id="container">
+    <div id="square1"></div>
+    <div id="square2"></div>
+    <div id="square3"></div>
+    <div id="square4"></div>
+</div>
 ```
 
-**Colors:**
+And the CSS:
 
-  {background-color: rgba(255,0,0,0.3);}   /* red with opacity */
-
-- '0' is invisible
-
-**Fonts & Google Fonts**
-
-- Talk about load time and how to manipulate the link directly.
-- On Codepen.io Walk through adding Google fonts both with a head link and with `@` in the css file.
-
-YOU DO:
-
-- Have the students pick a Google font and add it as a link and an `@` in CSS.
-- Have them try adding an [animation](https://developers.google.com/fonts/docs/getting_started#Effects) then show how to add an animation to the font.
-
-### Composite Selectors
-
-Selectors may be combined and/or nested. This allows styles to target very specific elements.
-
-- `tag.class-name`
-- `.class1.class2`
-- `tag#id-name.class-name`
-- `.class-name .sub-class`
-- `.classname a.class-name`
-- group selectors- together with a comma in between them
-- `li>a` child selector - targets any elements that are children of an `li`
-- `p a` descendant selector - targets and element that is a decendent of a `p`
-- `h1+p` adjacent sibling selector - targets the first `p` element after any `h1` elements.
-- `h1~p` general sibling selector - any `p` that are siblings of `h1`
-
-There is no technical limit to the nesting of selectors, however, discipline and good judgement while nesting selectors will do you a great service, and improve rendering performance!
-
-```
- div.promo h2 {
-  /* Composite selector */
- }
+```css
+#container {
+    height: 500px;
+    width: 500px;
+    background-color: gray;
+}
+#square1 {
+    background-color: red;
+    height: 100px;
+    width: 100px;
+}
+#square2 {
+    background-color: blue;
+    height: 100px;
+    width: 100px;
+}
+#square3 {
+    background-color: green;
+    height: 100px;
+    width: 100px;
+}
+#square4 {
+    background-color: black;
+    height: 100px;
+    width: 100px;
+}
 ```
 
-[Nesting](http://htmldog.com/guides/css/intermediate/grouping/) Should be used sparingly to make your CSS modular.
+Dynamite!  Now, navigate to your dev tools and under the elements tab, hover over each of the divs.  What do you notice? A "box" is being highlighted in your browser!
 
-###Font - ems, px, %
-
-- px in Explorer isn't enlargable for accessability purposes.
-- Ems are relative, 1 em is equal to the current font size of the element in question. By default it's 16 px. You can also put a default font size on the body.
-- The most popular method in working with em values is to set the font-size on the body to 62.5%. Because the default browser font-size is 16px, this makes it 10px (without hard-setting it to 10px, which wouldn't cascade).
+How about if we drop this code into our CSS file:
 
 
-### Psudo-classes
-
-Special psudo-classes allow us to add additional refinements onto our base selector classes. They target elements based on specialized information in the DOM that simple selectors cannot get... pattern-matching, child-to-parent relationships: nth-child selector. Common psudo-classes include:
-
-**Dynamic**
-
-- `:hover`
-- `:focus`
-- `:target`
-
-**Structural**
-
-- `:first/last-child`- give the styling to the first child of the parent element
-- `:first/last-of-child`- first h2 within the parent element
-- `:only-child`- whenever it is the only child, within that section, target it
-- `:nth-child(2)`- you have an argument that you can pass into to to create a pattern
-- `:nth-child(2n)`- every 2nd element
-
-### Pseudo-element selectors
-Differentiate pseudo-element selectors with class selectors.
-
- - h1 + p::first-line-  double colon is a css3 attribute, and it may not work on older browsers, so you may have to change it back to one colon
-
-- h1 + p::first-letter- font-size: 3em;
-
-## Specificity
-
-[Check out this lesson for more details](https://github.com/ga-students/WDI_ATL_2_Instructors/blob/master/Lessons/css_after_the_intro_class_html5/css-specificity-normalize-html5.md)
-
-Specificity determines what style rules are applied to an element that is targeted by many different style rules. The element's actual computed style is determined by its most *specific* styles.
-
-#### Scoring
-Specificity is actually quite easy to calculate:
-
-| selector | value |
-|:-- |:----------- |
-| **tag** | 1 point  |
-| **class**  | 10 points   |
-| **id** | 100 points  |
-| **inline** | 1000 points   |
-| **!important** | 10,000 points   |
-
-So, the net specificity of this selector would be…?:
-
-```
-div#features a.slide h3 span
-```
-This selector is worth **114 points**.
-
-#### Specificity Ties
-When two selectors have the same net specificity score, then the last one applied wins. Note that stylesheets are read from top to bottom, and their styles are applied in order… therefore, styles defined lower within your stylesheet will win.
-
-## Basic styles
-
-Some basic element styles:
-
-- **background-color**: #000;
-- **background-image**: url("image.jpg");
-- **border**: 1px solid #f00;
-- **border-radius**: 5px;
-- **color**: #FFF;
-- **font-family**: Arial, Helvetica, sans-serif;
-- **font-size**: 12px;
-- **font-style**: italic;
-- **font-weight**: bold;
-- **line-height**: 2em;
-- **list-style**: none;
-
-## Classes, IDs, and The Box Model
-
-[FEWD Box Model](http://jrosebud.github.io/lesson03/#/2)
-
-[Box Model](http://www.vanseodesign.com/css/inline-blocks/)
-
-[Box Model w3schools](http://www.w3schools.com/css/css_boxmodel.asp)
-
-
-- **border**: 1px solid #f00;
-- **display**: block / inline / inline-block / none;
-- **height**: 50px;
-- **margin**: 10px auto;
-- **padding**: 20px 40px;
-- **width**: 100px;
-
-### Box attribute order
-
-Box style rules (margin, padding, etc) may include 1-4 values for the different sides. These values are applied as follows:
-
-```
- /* Same on all four sides */
- margin: 20px;
-
- /* Top-Bottom / Left-Right */
- margin: 20px 40px;
-
- /* Top / Right / Bottom / Left (clockwise) */
- margin: 10px 50px 50px 40px;
+```css
+* {
+    border: 1px solid red !important;
+}
 ```
 
-##Navigation
+Notice the body, the container, and each of the divs are surrounded by a red border.  Peak at the styles tab on the right and scroll all the way to the bottom.  You'll notice boxes within boxes - madness!
 
-[FEWD Nav, Floats, Positioning](http://jrosebud.github.io/lesson04/#/1)
+## The Box Model and its components - Intro (10 mins)
 
-YOU DO: Have the students center their Navs
+The image below illustrates the box model and what you should have seen in your dev tools:
 
-## Floats
+![box-model](http://s6.postimg.org/gi8r6c341/css_box_model.png)
 
-[FEWD Floats Slides](http://jrosebud.github.io/lesson04/#/11)
+_From [www.theslate.org](http://www.theslate.org)_
 
-Floating takes block elements out of standard document flow, and allows them to stack horizontally instead of vertically.
+But what do these different layers mean, and how are they relating to one another?
 
-- **float**: left / right / none;
-- **clear**: both;
-- **overflow**: auto / hidden;
 
-### Wrapping Floats
+* **Margin** - clears an area around the border; the margin does not have a background color, it is completely transparent
 
-Because floated content is removed from document flow, you need clear the floated sequence for the parent element to wrap its floated children. There are three main techniques:
+* **Border** - a border that goes around the padding and content; the border is affected by the background color of the box
 
-#### clear
+* **Padding** - clears an area around the content; the space between the content and the border; the padding is affected by the background color of the box
 
-Add `clear:both;` to an element after the floated content.
+* **Content** - The content of the box, where text and images appear
+
+#### Layers of the Box Model - Codealong (15 mins)
+
+Let's get go into some more detail and practice with each of these elements of The Box Model.
+
+
+#### Margin
+
+The margin is the space around the element. The larger the margin, the more space between our element and the elements around it. We can adjust the margin to move our HTML elements closer to or farther from each other.
+
+Let's start with our margins. Adjusting our margins not only moves our element relative to other elements on the page but also relative to the "walls" of the HTML document.
+
+For instance, if we take an HTML element with a specific width (such as our `<div>` in the editor) and set its margin to `auto` - this tells the document to automatically put equal left and right margins on our element, centering it on the page.
+
+If you want to specify a particular margin, to a particular side, you can do it like this:
+
+```css
+div {
+  margin-top: /*some value*/
+  margin-right: /*some value*/
+  margin-bottom: /*some value*/
+  margin-left: /*some-value*/
+}
 
 ```
- <div>
-  <div style="float:left;">I'm Floated!</div>
-  <div style="clear:both;"></div>
- </div>
+> Note: Demonstrate altering each of these values in the dev tools for the div selector.
+
+You can also set an element's margins all at once: you just start from the top margin and go around clockwise (going from top to right to bottom to left). For instance,
+
+```css
+div {
+  margin: 1px 2px 3px 4px;
+}
 ```
 
-#### overflow
+You can do top-bottom and side side - let's add this to our css for now:
 
-Add `overflow:auto / hidden;` to the parent element. The overflowed parent will wrap its floated children.
-
-```
- <div style="overflow:auto;">
-  <div style="float:left;">I'm Floated!</div>
- </div>
+```css
+div {
+  margin: 0 auto;
+}
 ```
 
-#### clearfix
+#### Border
 
-Use a `.clearfix` class on the parent container, and then add a [clearfix implementation](http://css-tricks.com/snippets/css/clear-fix/) into your stylesheet. Clearfix is a widely recognized and accepted practice (albiet, still technically a hack though).
+We've talked briefly about borders - the border is the edge of the element. It's what we've been making visible every time we set the border property.
+
+Borders can be set in two ways, just like your margins and just like we've talked about previously.
+
+Lets add some thick borders to our `<div>`'s by removing the `!important` from the `*` selector and adding:
+
+```css
+div {
+  margin: 0 auto;
+  border: 5px solid black;
+}
+```
+
+#### Padding and Content
+
+The padding is the spacing between the content and the border. We can adjust this value with CSS to move the border closer to or farther from the content.
+
+Padding can be set in two ways, just like your margins.
+
+Lets add some padding to our `<div>`'s from our dev tools.  Notice, the space inside the "boxes" gets larger.  
+
+```css
+div {
+  margin: 0 auto;
+  border: 5px solid black;
+  padding: 2px;
+}
+```
+
+Update your CSS file to include this.
+
+Padding becomes more apparent when we have "stuff" inside the box. If we're talking about a `<p>` element, the "stuff" is the text of the paragraph - the __content__. Let's add some text:
+
+```html
+<div id="container">
+  <p>Hi there!</p>
+    <div id="square1"></div>
+    <div id="square2"></div>
+    <div id="square3"></div>
+    <div id="square4"></div>
+</div>
+```
+
+Open the browser, and now, give that `p` tag some padding in the dev tools:
+
+```css
+
+p {
+  padding: 20px;
+}
+```
+
+Amazing!  Add those styles to your CSS file.
+
+
+## Taking Up Space using Display - Intro (15 mins)
+
+Cool, right? Each HTML element gets its own box to live in.
+
+As you saw, the outermost box of each element went all the way across the page. This is why, until now, your HTML elements have been sitting on top of one another: by default, they take up the full width of the page.
+
+We can change all this with the first positioning property we'll learn, the `display` property and the four values we can use: inline, block, inline-block, and none.
+
+* An **inline** element has no line break before or after it. This makes the element sit on the same line as another element, but without formatting it like a block. It only takes up as much width as it needs (not the whole line). Inline places all your elements on a single line. The bad news is that it doesn't maintain their "box"ness
+
+* A **block** element has some whitespace above and below it and does not tolerate any HTML elements next to it. This makes the element a block box. It won't let anything sit next to it on the page and takes up the full width.
+
+* An **inline-block** element is placed as an inline element (on the same line as adjacent content), but it behaves as a block element. This makes the element a block box but will allow other elements to sit next to it on the same line.
+
+* If you assign **none** as the value of the display, this will make the element and its content disappear from the page entirely!
+
+To illustrate this, if we had this HTML:
+
+
+```html
+<div class="inline">
+    <div class="inline">Content</div>
+    <div class="inline">Content</div>
+    <div class="inline">Content</div>
+</div>
+
+<div class="block">
+    <div class="block">Content</div>
+    <div class="block">Content</div>
+    <div class="block">Content</div>
+</div>
+
+<div class="inline-block">
+    <div class="inline-block">Content</div>
+    <div class="inline-block">Content</div>
+    <div class="inline-block">Content</div>
+</div>
 
 ```
- <div class="clearfix">
-  <div style="float:left;">I'm Floated!</div>
- </div>
+
+With this CSS:
+
+```css
+.inline {
+    display: inline;
+}
+
+.block {
+    display: block;
+}
+
+.inline-block {
+    display: inline-block;
+}
 ```
 
+We would end up with something like this:
+
+![display](https://i.imgur.com/zeD1f2m.png)
+
+> Note: Explain the styling in this image.
+
+
+## Positioning - Codealong (10 mins)
+
+Another CSS property, "position", can take `relative` or `absolute` values, among others.
+
+A page element with "relative positioning" gives you the control to "absolutely position" children elements inside of it. This might not be obvious to everyone - that's probably because this isn't intuitive, at all. Let's look at an example.
+
+
+![css position relative](https://i.imgur.com/LRd7lBy.png)
+
+The relative positioning on the parent is what matters here. This what would happen if we forgot that:
+
+![](https://i.imgur.com/0vGcPFL.png)
+
+In this small example, it doesn't seem to matter much, but it really is a significant change.
+
+⇒ The "absolutely positioned" elements are positioning themselves in relation to the body element, instead of their direct parent. So if the browser window grows, that element in the bottom left is going to stick with the browser window, not hang back inside, like it was the case in the previous example.
+
+#### Relative Positioning
+
+Declaring `position:relative` allows you to position the element top, bottom, left, or right relative to where it would normally occur.  Let's add some CSS and see what happens:
+
+```css
+#square1 {
+    background-color: red;
+    height: 100px;
+    width: 100px;
+    position:relative;
+    top: 0;
+    left: 40px;
+}
+```
+
+
+
+#### Static Positioning
+
+HTML elements are positioned static by default. A "static positioned" element is always positioned according to the normal flow of the page and are not affected by the top, bottom, left, and right properties.
+
+Again, the default positioning for all elements is static. This means that no positioning has been applied and the elements occurs where they normally would in the document.
+
+If we revisit our squares from earlier in class:
+
+```css
+#container {
+    background-color: gray;
+    position: static;
+    height: 500px;
+    width: 500px;
+}
+```
+
+You rarely explicitly declare `position:static` like this because it is the default.
+
+#### Fixed Positioning
+
+An element with fixed position is positioned relative to the browser window.  It will not move even if the window is scrolled, so a fixed positioned element will stay right where it is creating an effect a bit like the old school "frames" days.
+
+Try it out:
+
+```css
+#square2 {
+    position: fixed;
+    width: 100%;
+    height: 100px;
+    background-color: blue;
+    top: 0;
+    left: 0;
+}
+```
+
+
+#### Absolute Positioning
+
+Specifying `position:absolute` _removes the element from the document_ and places it exactly where you tell it to be.
+
+```css
+#square1 {
+    background-color: red;
+    height: 100px;
+    width: 100px;
+    position:absolute;
+    top: 0;
+    right: 0;
+}
+```
+
+
+
+##### Relative Positioning
+
+Declaring `position:relative` allows you to position the element top, bottom, left, or right relative to where it would normally occur.
+
+```css
+#square1 {
+    background-color: red;
+    height: 100px;
+    width: 100px;
+    position:relative;
+    top: 0;
+    left: 40px;
+}
+```
+
+## Floats and Clears - Intro (10 min)
+
+The float property specifies whether or not a box (or an element) should float; essentially, it determines whether text will be wrapped around the element.
+
+<p style="text-align: center">
+<img src='https://cloud.githubusercontent.com/assets/40461/8234489/3b61ef02-15d4-11e5-8864-435fb6e0c3cc.png'>
+</p>
+
+Note that "absolutely positioned" elements ignore the float property as they are removed from the normal document flow.
+
+Floated elements remain a part of the flow of the web page. This is distinctly different than page elements that use absolute positioning.
+
+There are four valid values for the float property. "Left" and "right" float elements those directions, respectively. "None" (the default) ensures the element will not float and "inherit" which will assume the float value from that elements parent element.
+
+#### Clear
+
+All elements will float next to floated items until they are specifically cleared. Think about the text on the page.
+
+<p style="text-align: center">
+<img src="https://cloud.githubusercontent.com/assets/40461/8234478/287c1156-15d4-11e5-9901-ba9090a5bf70.png">
+</p>
+
+## Using position, floats, and clears to create columns - Code along (20 mins)
+
+Now that we have the basics of relative and absolute positioning, lets create a two column layout by changing the heights; then, we'll investigate how to do this with floats and clears for a more effective approach.  
+
+So, without clears, change the heights of square1 and square2 to 200px and absolutely position the two squares like so:
+
+
+```css
+#container {
+    background-color: gray;
+    position: relative;
+    height: 500px;
+    width: 500px;
+}
+#square1 {
+    background-color: red;
+    height: 200px;
+    width: 100px;
+    position:absolute;
+    top: 0;
+    right: 0;
+}
+#square2 {
+    background-color: blue;
+    height: 200px;
+    width: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+```
+
+Note how our "square2" div is positioned to the top left of the container and "square1" to the top right. This was done to illustrate that absolute positioning doesn't care what order the elements appear in your html.
+
+Also, notice how we can't see square3 or square4? They are being covered up by our absolute-positioned "square2" div (remember absolute positioning removes the element from the document).
+
+We can reveal those missing divs by declaring their absolute position in the bottom left and right of our container:
+
+```css
+#square3 {
+    background-color: green;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+#square4 {
+    background-color: black;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+```
+
+This works fine when we know the exact sizes of our elements but what if we were building something like a blog and we had text in those columns or surrounding them? We won't always know the exact amount of text or their font sizes. This is where floats can help us.
+
+#### Floats to create multicolumn layouts
+
+If our element sizes are variable or dynamic we can use floats to allow text/other elements to wrap around the floated element.  To illustrate this, lets first go to a favorite ipsum generator and grab four paragraphs of text.
+
+Now, let's venture back to our html page and add this text after the closing tag of our "square2" div and before the opening tag of our "square3" div.
+
+Your html should like this:
+
+```html
+
+    <div id="container">
+        <div id="square1"></div>
+        <div id="square2"></div>
+        (4 paragraphs of ipsum)
+        <div id="square3"></div>
+        <div id="square4"></div>
+    </div>
+
+```
+
+As expected our text falls behind our absolute positioned columns? Now lets make our elements aware of each other with floats.
+
+Back in our CSS remove the absolute positioning from our "square2" div and replace it with `float:left`:
+
+```css
+#square2 {
+    background-color: blue;
+    height: 200px;
+    width: 100px;
+    float: left;
+}
+```
+
+Note that our text is aware that our "square2" div wants to be as left as possible and kindly wraps it in a nice text hug.
+
+#### Floats with clears
+
+While floats make other elements aware of their location and get text hugs, clears make other elements aware and are told not to touch.
+
+Lets go back to our CSS and change our "square2" div's positioning from float:left to clear: right.
+
+`Clear` is saying "I'm not sure how much space I'm going to take but whatever it is clear off my right side" so our text respects its wishes and drops to the line below.
+
+
+## Conclusion (5 mins)
+
+- Compare the elements of The Box Model - margin, border, padding, content.
+- How do floats work with clears to create a multicolumn layout?
+- Compare inline-block, block, and inline.
