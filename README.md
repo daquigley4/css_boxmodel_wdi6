@@ -96,12 +96,13 @@ And the CSS:
 
 Dynamite!  Now, navigate to your dev tools and under the elements tab, hover over each of the divs.  What do you notice? A "box" is being highlighted in your browser!
 
-How about if we drop this code into each of the  id's #square1-#square4 our CSS file:
+How about if we drop this code into the css file:
 
 
 ```css
-* 
+* {
     border: 1px solid red !important;
+}
 ```
 
 Notice the body, the container, and each of the divs are surrounded by a red border.  Peak at the styles tab on the right and scroll all the way to the bottom.  You'll notice boxes within boxes - madness!
@@ -520,6 +521,12 @@ Lets go back to our CSS and change our "square2" div's positioning from float:le
 - Compare the elements of The Box Model - margin, border, padding, content.
 - How do floats work with clears to create a multicolumn layout?
 - Compare inline-block, block, and inline.
+
+##Addtional Resources
+[box model w3 schools video](https://www.youtube.com/watch?v=lPm8lK4C7nc)
+
+[Intro to CSS FEWD Slides](http://jrosebud.github.io/lesson02/#/18)
+
 
 ## Sample Quiz Questions
 
